@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, ImageBackground, ScrollView } from 'react-native'
 
 import BotaoPadrao from '../componentes/BotaoPadrao'
+import Clientes from '../componentes/Clientes'
 const imgFundo='../imagens/fundo.jpg'
 
 export default props => {
@@ -12,9 +13,7 @@ export default props => {
         >
             <View style={styles.telaTotal}>
                 <View style={{flex: 1}}>
-                    <View>
-                                
-                    </View>                          
+                    <Clientes />                  
                 </View>             
                 <View style={styles.botao}>
                     <BotaoPadrao 

@@ -38,6 +38,7 @@ const BottomTabNavigator = (props) => {
           return <Ionicons name={iconName} size={size} color={color} />;
           },
       })}
+      initialRouteName='Principal'
     >
       <Tab.Screen name="Clientes" component={ClienteStackNavigator} />
       <Tab.Screen name="Principal" component={PrincipalStackNavigator} />
