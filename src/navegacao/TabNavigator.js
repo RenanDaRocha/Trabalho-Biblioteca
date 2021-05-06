@@ -1,12 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 import { 
-  PrincipalStackNavigator, 
   ClienteStackNavigator,
-  AcervoStackNavigator,
-  MainNavigator
+  MainNavigator,
 
 } from './StackNavigator'
 
@@ -40,7 +38,7 @@ const BottomTabNavigator = (props) => {
           },
       })}
       initialRouteName='Principal'
-    >
+    >      
       <Tab.Screen name="Clientes" component={ClienteStackNavigator} />
       <Tab.Screen name="Principal" component={MainNavigator} />
     </Tab.Navigator>

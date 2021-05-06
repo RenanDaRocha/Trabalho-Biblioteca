@@ -8,8 +8,8 @@ export default function App() {
   return (
     <SafeAreaView style={{flex: 1}} >
       <NavigationContainer>
-        <TabNavigator />
-      </NavigationContainer>
+        <TabNavigator />  
+      </NavigationContainer>            
     </SafeAreaView>
   );
 }

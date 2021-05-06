@@ -1,6 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import Splash from '../screens/Splash';
+
 import LivroList from '../ListViews/Livro/'
 import LivroForm from '../Forms/Livro';
 
@@ -35,6 +37,7 @@ const MainNavigator = _ => {
       screenOptions={screenOptionStyle} 
       initialRouteName={"TelaMain"}
     >
+      <Stack.Screen name="Splash" component={Splash} options={{headerShown:false}} />
       <Stack.Screen name="LivroList" component={LivroList} options={{headerShown:false}} />
       <Stack.Screen name="LivroForm" component={LivroForm} options={{headerShown:false}} />
     </Stack.Navigator>
