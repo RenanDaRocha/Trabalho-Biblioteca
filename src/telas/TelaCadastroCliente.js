@@ -47,10 +47,26 @@ export default class TelaCadastro extends Component {
                     </View>
                     <View style={styles.EstiloViewImput}>
                         <TextInput 
+                            placeholder="Sobrenome"
+                            style={styles.EstiloImput}
+                            onChangeText={text => this.setState({valNome: text})}
+                            value={this.state.valNome}
+                        />    
+                    </View>
+                    <View style={styles.EstiloViewImput}>
+                        <TextInput 
                             placeholder="Matrícula"
                             style={styles.EstiloImput}
                             onChangeText={text => this.setState({valMatricula: text})}
                             value={this.state.valMatricula}
+                        />    
+                    </View>
+                    <View style={styles.EstiloViewImput}>
+                        <TextInput 
+                            placeholder="Email"
+                            style={styles.EstiloImput}
+                            onChangeText={text => this.setState({valNome: text})}
+                            value={this.state.valNome}
                         />    
                     </View>
                     <View style={styles.botoes}>
