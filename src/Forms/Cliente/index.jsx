@@ -1,28 +1,62 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ImageBackground, TextInput } from 'react-native'
 
-import BotaoPadrao from '../componentes/BotaoPadrao'
-const imgFundo='../imagens/fundo.jpg'
+import BotaoPadrao from '../../components/BotaoPadrao'
+const imgFundo='../../images/fundo.jpg'
+import api from '../../services/api';
 
-export default class TelaCadastro extends Component {
+export default class ClienteForm extends Component {
 
     constructor(props){
         super(props);
 
+        try {
+            self.data = props.route.params.data ? props.route.params.data : null;  
+        } catch (error) {
+            self.data = null
+        }
+
         this.state = {
-            dados: null,
-            valNome: '',
-            valMatricula: '',
+            id: this.getProp(self.data, 'id'),
+            firstname: this.getProp(self.data, 'firstname'),
+            lastname: this.getProp(self.data, 'lastname'),
+            number: this.getProp(self.data, 'number'),
+            email: this.getProp(self.data, 'email')
         }
     }
 
-    gravarCliente(){
-        console.log('Entrou!')
+    getProp(data, field){
+        if (data === undefined)
+            return null
 
-        this.setState({
-            valNome: '',
-            valMatricula: '',
-        })
+        if (data === null)
+            return null
+
+        return data[field]
+    }
+
+    async handleSave(){
+        try {
+            data = {
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                number: this.state.number,
+                email: this.state.email
+            }
+            let response = null
+            if (this.state.id)
+                response = await api.put(`/customer/${this.state.id}/`, data)
+            else
+                response = await api.post("/customer/", data)
+
+            if (response){
+                alert('Dados salvos com sucesso...')
+                this.props.navigation.goBack()
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     render(){
@@ -41,32 +75,32 @@ export default class TelaCadastro extends Component {
                         <TextInput 
                             placeholder="Nome"
                             style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valNome: text})}
-                            value={this.state.valNome}
+                            onChangeText={text => this.setState({firstname: text})}
+                            value={this.state.firstname}
                         />    
                     </View>
                     <View style={styles.EstiloViewImput}>
                         <TextInput 
                             placeholder="Sobrenome"
                             style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valNome: text})}
-                            value={this.state.valNome}
+                            onChangeText={text => this.setState({lastname: text})}
+                            value={this.state.lastname}
                         />    
                     </View>
                     <View style={styles.EstiloViewImput}>
                         <TextInput 
                             placeholder="Matrícula"
                             style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valMatricula: text})}
-                            value={this.state.valMatricula}
+                            onChangeText={text => this.setState({number: text})}
+                            value={this.state.number}
                         />    
                     </View>
                     <View style={styles.EstiloViewImput}>
                         <TextInput 
-                            placeholder="Email"
+                            placeholder="E-mail"
                             style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valNome: text})}
-                            value={this.state.valNome}
+                            onChangeText={text => this.setState({email: text})}
+                            value={this.state.email}
                         />    
                     </View>
                     <View style={styles.botoes}>
@@ -86,7 +120,7 @@ export default class TelaCadastro extends Component {
                             larguraCaixa='45%'
                             TamFonte={24}
                             borderRadius={50}
-                            onClick={() => this.gravarCliente()}
+                            onClick={() => this.handleSave()}
                         />      
                     </View>
                      
@@ -106,7 +140,7 @@ const styles = StyleSheet.create({
     },
     telaTotal: {
         padding: 10,
-        paddingTop: 30,
+        paddingTop: 30
     },
     titulo: {
         color: 'white',

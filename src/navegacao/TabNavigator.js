@@ -6,6 +6,7 @@ import {
   PrincipalStackNavigator, 
   ClienteStackNavigator,
   AcervoStackNavigator,
+  MainNavigator
 
 } from './StackNavigator'
 
@@ -41,8 +42,7 @@ const BottomTabNavigator = (props) => {
       initialRouteName='Principal'
     >
       <Tab.Screen name="Clientes" component={ClienteStackNavigator} />
-      <Tab.Screen name="Principal" component={PrincipalStackNavigator} />
-      <Tab.Screen name="Acervo" component={AcervoStackNavigator} />
+      <Tab.Screen name="Principal" component={MainNavigator} />
     </Tab.Navigator>
   );
 }

@@ -1,32 +1,66 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ImageBackground, TextInput } from 'react-native'
 
-import BotaoPadrao from '../componentes/BotaoPadrao'
-const imgFundo='../imagens/fundo.jpg'
+import BotaoPadrao from '../../components/BotaoPadrao'
+const imgFundo='../../images/fundo.jpg'
+import api from '../../services/api';
 
-export default class TelaCadastro extends Component {
+export default class LivroForm extends Component {
 
     constructor(props){
         super(props);
 
+        try {
+            self.data = props.route.params.data ? props.route.params.data : null;  
+        } catch (error) {
+            self.data = null
+        }
+
         this.state = {
-            dados: null,
-            valTitulo: '',
-            valSubTitulo: '',
-            valAutor: '',
-            valISBN: '',
+            id: this.getProp(self.data, 'id'),
+            title: this.getProp(self.data, 'title'),
+            subtitle: this.getProp(self.data, 'subtitle'),
+            author: this.getProp(self.data, 'author'),
+            publisher: this.getProp(self.data, 'publisher'),
+            isbn: this.getProp(self.data, 'isbn'),
+            description: this.getProp(self.data, 'description')
         }
     }
 
-    gravarLivro(){
-        console.log('Entrou!')
+    getProp(data, field){
+        if (data === undefined)
+            return null
 
-        this.setState({
-            valTitulo: '',
-            valSubTitulo: '',
-            valAutor: '',
-            valISBN: '',
-        })
+        if (data === null)
+            return null
+
+        return data[field]
+    }
+
+    async handleSave(){
+        try {
+            data = {
+                title: this.state.title,
+                subtitle: this.state.subtitle,
+                author: this.state.author,
+                publisher: this.state.publisher,
+                isbn: this.state.isbn,
+                description: this.state.description
+            }
+            let response = null
+            if (this.state.id)
+                response = await api.put(`/book/${this.state.id}/`, data)
+            else
+                response = await api.post("/book/", data)
+
+            if (response){
+                alert('Dados salvos com sucesso...')
+                this.props.navigation.goBack()
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     render(){
@@ -45,40 +79,50 @@ export default class TelaCadastro extends Component {
                         <TextInput 
                             placeholder="Título"
                             style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valTitulo: text})}
-                            value={this.state.valTitulo}
+                            onChangeText={text => this.setState({title: text})}
+                            value={this.state.title}
                         />    
                     </View>
                     <View style={styles.EstiloViewImput}>
                         <TextInput 
-                            placeholder="SubTítulo"
+                            placeholder="Subtítulo"
                             style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valSubTitulo: text})}
-                            value={this.state.valSubTitulo}
-                        />    
-                    </View>
-                    <View style={styles.EstiloViewImput}>
-                        <TextInput 
-                            placeholder="Descrição"
-                            style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valSubTitulo: text})}
-                            value={this.state.valSubTitulo}
+                            onChangeText={text => this.setState({subtitle: text})}
+                            value={this.state.subtitle}
                         />    
                     </View>
                     <View style={styles.EstiloViewImput}>
                         <TextInput 
                             placeholder="Autor"
                             style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valAutor: text})}
-                            value={this.state.valAutor}
+                            onChangeText={text => this.setState({author: text})}
+                            value={this.state.author}
+                        />    
+                    </View>
+                    <View style={styles.EstiloViewImput}>
+                        <TextInput 
+                            placeholder="Editora"
+                            style={styles.EstiloImput}
+                            onChangeText={text => this.setState({publisher: text})}
+                            value={this.state.publisher}
                         />    
                     </View>
                     <View style={styles.EstiloViewImput}>
                         <TextInput 
                             placeholder="ISBN"
                             style={styles.EstiloImput}
-                            onChangeText={text => this.setState({valISBN: text})}
-                            value={this.state.valISBN}
+                            onChangeText={text => this.setState({isbn: text})}
+                            value={this.state.isbn}
+                        />    
+                    </View>
+                    <View style={styles.EstiloViewImput}>
+                        <TextInput 
+                            multiline={true}
+                            numberOfLines={4}
+                            placeholder="Descrição"
+                            style={styles.EstiloImput}
+                            onChangeText={text => this.setState({description: text})}
+                            value={this.state.description}
                         />    
                     </View>
                     <View style={styles.botoes}>
@@ -98,7 +142,7 @@ export default class TelaCadastro extends Component {
                             larguraCaixa='45%'
                             TamFonte={24}
                             borderRadius={50}
-                            onClick={() => this.gravarLivro()}
+                            onClick={() => this.handleSave()}
                         />      
                     </View>
                      
