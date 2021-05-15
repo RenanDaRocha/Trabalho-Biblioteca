@@ -58,6 +58,22 @@ export default class FormBase extends Component {
         // esta função deve ser sobrescrita
     }
 
+    async handleDelete(){
+        try {
+            let response = null            
+            if (this.state.id)
+                response = await api.delete(`${this.resourse}${this.state.id}/`, this.state)                    
+
+            if (response){
+                alert('Dados salvos com sucesso...')
+                this.props.navigation.goBack()
+            }
+
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
     render(){
         return (
             <ImageBackground
@@ -89,8 +105,20 @@ export default class FormBase extends Component {
                             TamFonte={24}
                             borderRadius={50}
                             onClick={() => this.handleSave()}
-                        />      
-                    </View>                    
+                        />     
+                    </View>
+                    {this.state && this.state.id && <View style={styles.botoes}>
+                        <BotaoPadrao 
+                            titulo="Deletar"
+                            corFundo='#CCC'
+                            auturaCaixa={50}
+                            larguraCaixa='45%'
+                            TamFonte={24}
+                            borderRadius={50}
+                            onClick={() => this.handleDelete()}
+                        />     
+                    </View>}
+                                     
                 </View>   
             </ImageBackground>                    
         )

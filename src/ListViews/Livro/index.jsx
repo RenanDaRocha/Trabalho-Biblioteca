@@ -18,7 +18,7 @@ export default class Livro extends ListBase {
                     <View>
                         <View>
                             <Text style={styles.tituloLivro}>
-                                {data.title} 
+                                {`${data.id} - ${data.title}`} 
                             </Text>    
                         </View>
 

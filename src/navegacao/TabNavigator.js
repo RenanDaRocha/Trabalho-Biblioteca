@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import { 
   ClienteStackNavigator,
   MainNavigator,
+  EmprestimoNavigator,
 
 } from './StackNavigator'
 
@@ -29,7 +30,7 @@ const BottomTabNavigator = (props) => {
               ? 'ios-people'
               : 'ios-people-outline';
           } 
-          else if (route.name === 'Acervo') {
+          else if (route.name === 'Emprestimo') {
               iconName = focused
               ? 'ios-book'
               : 'ios-book-outline';
@@ -41,6 +42,7 @@ const BottomTabNavigator = (props) => {
     >      
       <Tab.Screen name="Clientes" component={ClienteStackNavigator} />
       <Tab.Screen name="Principal" component={MainNavigator} />
+      <Tab.Screen name="Emprestimo" component={EmprestimoNavigator} />
     </Tab.Navigator>
   );
 }

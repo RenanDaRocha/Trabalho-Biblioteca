@@ -9,6 +9,9 @@ import LivroForm from '../Forms/Livro';
 import ClienteList from '../ListViews/Cliente/'
 import ClienteForm from '../Forms/Cliente';
 
+import EmprestimoList from '../ListViews/Emprestimo';
+import EmprestimoForm from '../Forms/Emprestimo';
+
 const Stack = createStackNavigator();
 
 const screenOptionStyle = {
@@ -44,4 +47,16 @@ const MainNavigator = _ => {
   </>
 }
 
-export { ClienteStackNavigator, MainNavigator};
+const EmprestimoNavigator = _ => {
+  return <>
+    <Stack.Navigator 
+      screenOptions={screenOptionStyle} 
+      initialRouteName={"Emprestimo"}
+    >
+      <Stack.Screen name="EmprestimoList" component={EmprestimoList} options={{headerShown:false}} />
+      <Stack.Screen name="EmprestimoForm" component={EmprestimoForm} options={{headerShown:false}} />
+    </Stack.Navigator>
+  </>
+}
+
+export { ClienteStackNavigator, MainNavigator, EmprestimoNavigator};
