@@ -11,7 +11,7 @@ export default class ClienteForm extends FormBase {
     }
 
     handleForm(){
-        return <>
+        return <>            
             <View style={styles.EstiloViewImput}>
                 <TextInput 
                     placeholder="Nome"
@@ -43,7 +43,7 @@ export default class ClienteForm extends FormBase {
                     onChangeText={text => this.setState({email: text})}
                     value={this.state && this.state.email}
                 />    
-            </View>
+            </View>            
         </>
     }
 }

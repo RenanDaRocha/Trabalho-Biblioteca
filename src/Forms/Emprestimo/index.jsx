@@ -4,6 +4,7 @@ import styles from '../../components/FormBase/style';
 import { View, Text} from 'react-native'
 import RNPickerSelect from "react-native-picker-select";
 import api from '../../services/api';
+import Button from '../../components/Button';
 
 export default class EmprestimoForm extends FormBase {
     constructor(props){
@@ -62,8 +63,33 @@ export default class EmprestimoForm extends FormBase {
         super.handleSave()
     }
 
-    handleForm(){
+    async handleReturnBook(){
+        try {
+            const dados    = {loan: this.state.id, books: [this.state['books']]}            
+            const response = await api.post('/movement/make_return/', dados);
+
+            if (response){
+                alert('Devolução realizada com sucesso');
+                this.handleView();
+                this.props.navigation.goBack();
+            }
+
+        } catch (error) {                      
+            alert(error.message)
+        }
+    }
+
+    handleButtons(){
         return <>
+            {this.state.id && this.state.closed == false && <View>
+                <Button icon="book-lock-open" onPress={ _ => this.handleReturnBook()} />
+            </View>}
+            {super.handleButtons()}
+        </>
+    }
+
+    handleForm(){
+        return <>        
             <View style={styles.EstiloViewImput} style={{height: 50, color: 'black', margin: 20}}>                
                 <RNPickerSelect
                     selectedValue={this.state.customer}
@@ -83,7 +109,7 @@ export default class EmprestimoForm extends FormBase {
                     <Text style={{fontSize: 20, color: 'white', marginBottom: 20}}>Click aqui e selecione o livro</Text>
                     <Text style={{fontSize: 20, color: 'white'}}>{this.state.books}</Text>
                 </RNPickerSelect>  
-            </View>
+            </View>        
         </>
     }
 }

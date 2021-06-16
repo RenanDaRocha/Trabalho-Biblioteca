@@ -13,7 +13,7 @@ export default class EmprestimoList extends ListBase {
 
     handleView(data){
         return <>
-            <TouchableOpacity key={data} onPress={e => this.props.navigation.navigate("EmprestimoForm", {data: data})}>
+            <TouchableOpacity key={data} onPress={e => this.props.navigation.navigate("EmprestimoForm", {data: data, handleView: _ => super.buscaDados()})}>
                 <View style={styles.caixa}>
                     <View>
                         <View>

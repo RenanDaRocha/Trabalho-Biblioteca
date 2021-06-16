@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, ImageBackground } from 'react-native'
 
-import BotaoPadrao from '../../components/BotaoPadrao'
+import Button from '../../components/Button';
 const imgFundo='../../images/fundo.jpg'
 import api from '../../services/api';
 import styles from './style';
@@ -19,9 +19,10 @@ export default class FormBase extends Component {
 
         try {
             this.data = props.route.params.data ? props.route.params.data : null;  
+            this.handleView = props.route.params.handleView ? props.route.params.handleView : _ => {}
         } catch (error) {
             this.data = null
-        }
+        }        
 
         if (this.data){
             state = {}
@@ -49,7 +50,8 @@ export default class FormBase extends Component {
                 response = await api.post(this.resourse, this.state)                        
 
             if (response){
-                alert('Dados salvos com sucesso...')
+                alert('Dados salvos com sucesso...');                
+                this.handleView();
                 this.props.navigation.goBack()
             }
 
@@ -69,7 +71,8 @@ export default class FormBase extends Component {
                 response = await api.delete(`${this.resourse}${this.state.id}/`, this.state)                    
 
             if (response){
-                alert('Dados salvos com sucesso...')
+                alert('Registro removido.');
+                this.handleView();
                 this.props.navigation.goBack()
             }
 
@@ -78,51 +81,47 @@ export default class FormBase extends Component {
         }
     }
 
+    handleButtons(){
+        return <>
+            <View style={styles.botoes}>
+                <Button 
+                    icon="content-save"
+                    onPress={_ => this.handleSave()}                            
+                /> 
+                                            
+            </View>
+            <View style={styles.botoes}>
+                <Button 
+                    icon="keyboard-backspace"
+                    onPress={_ => this.props.navigation.goBack()}                            
+                />
+            </View>
+            {this.state && this.state.id && <View style={styles.botoes}>                         
+                <Button 
+                    icon="delete"
+                    onPress={_ => this.handleDelete()}                                           
+                />   
+            </View>}
+        </>
+    }
+
     render(){
         return (
             <ImageBackground
                 source={require(imgFundo)}
                 style={styles.imagemFundo}
-            >
+            >                
                 <View style={styles.telaTotal}>
                     <View style={{alignItems: 'center'}}>
                         <Text style={styles.titulo}>
                             {this.title}
                         </Text>
                     </View>
-                    {this.handleForm()}
-                    <View style={styles.botoes}>
-                        <BotaoPadrao 
-                            titulo="Cancelar"
-                            corFundo='#CCC'
-                            auturaCaixa={50}
-                            larguraCaixa='45%'
-                            TamFonte={24}
-                            borderRadius={50}
-                            onClick={() => this.props.navigation.goBack()}
-                        />   
-                        <BotaoPadrao 
-                            titulo="Cadastrar"
-                            corFundo='#CCC'
-                            auturaCaixa={50}
-                            larguraCaixa='45%'
-                            TamFonte={24}
-                            borderRadius={50}
-                            onClick={() => this.handleSave()}
-                        />     
+                    <View style={{height: '70%'}}>
+                        {this.handleForm()}
                     </View>
-                    {this.state && this.state.id && <View style={styles.botoes}>
-                        <BotaoPadrao 
-                            titulo="Deletar"
-                            corFundo='#CCC'
-                            auturaCaixa={50}
-                            larguraCaixa='45%'
-                            TamFonte={24}
-                            borderRadius={50}
-                            onClick={() => this.handleDelete()}
-                        />     
-                    </View>}
-                                     
+                    
+                    {this.handleButtons()}                                     
                 </View>   
             </ImageBackground>                    
         )

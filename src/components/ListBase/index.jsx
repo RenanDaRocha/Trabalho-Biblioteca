@@ -74,7 +74,7 @@ export default class ListBase extends Component {
                             </View>
                             <View style={styles.caixaPessoas}>
                                 {this.state.content}
-                                <Button onPress={ _ => this.props.navigation.navigate(this.form_name)}/>
+                                <Button icon="plus" onPress={ _ => this.props.navigation.navigate(this.form_name)}/>
                             </View> 
                         </View>
                     </View>    

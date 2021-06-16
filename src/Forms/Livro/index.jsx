@@ -61,7 +61,7 @@ export default class LivroForm extends FormBase {
                     onChangeText={text => this.setState({description: text})}
                     value={this.state && this.state.description}
                 />    
-            </View>
+            </View>            
         </>
     }
 }

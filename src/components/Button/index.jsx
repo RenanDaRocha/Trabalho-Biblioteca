@@ -4,8 +4,7 @@ import { FAB } from 'react-native-paper';
 
 const Button = (props) => (
   <FAB
-    style={styles.fab}
-    icon="plus"
+    style={{...styles.fab}}    
     {...props}
   />
 );
