@@ -18,6 +18,11 @@ export default class EmprestimoList extends ListBase {
                     <View>
                         <View>
                             <Text style={styles.tituloLivro}>
+                                Nº: {data.id}
+                            </Text>    
+                        </View>
+                        <View>
+                            <Text style={styles.tituloLivro}>
                                 {data.customer_name}
                             </Text>    
                         </View>

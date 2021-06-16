@@ -1,7 +1,7 @@
 import React from 'react';
 import FormBase from '../../components/FormBase';
 import styles from '../../components/FormBase/style';
-import { TextInput, View} from 'react-native'
+import { View, Text} from 'react-native'
 import RNPickerSelect from "react-native-picker-select";
 import api from '../../services/api';
 
@@ -23,7 +23,14 @@ export default class EmprestimoForm extends FormBase {
     async buscaDados() {
         try {
             const response_cliente = await api.get("/customer/");
-            const response_book = await api.get("/book/");
+            const response_book    = await api.get("/book/");
+            
+            if (this.state.books){
+                this.state['books'] = this.state.books[0];
+            }    
+            
+            aux_books    = this.state['books'];
+            aux_customer = this.state['customer'];
 
             if (response_cliente){
                 const options_cliente = response_cliente.data.map( cliente => {
@@ -37,49 +44,45 @@ export default class EmprestimoForm extends FormBase {
                 const options_book = response_book.data.map( book => {
                     if (book.status == 1)
                         return {label: book.title, value: book.id}
+                    
+                    return {}
                 })
-
+                
                 this.setState({options_book: options_book});
-            }
-            /*
-            if (response1 && response2) {
-                for (let i = 0; i < response1.data.length; i++) {
-
-                    this.state.livros.push(response1.data[i].title)
-
-                }
-                for (let i = 0; i < response2.data.length; i++) {
-                    this.state.clientes.push(response2.data[i].firstname + ' ' + response2.data[i].lastname)
-                }
-                console.log(this.livros)
-                this.setState({ 
-                    dadosLivro: response1.data,
-                    dadosCliente: response2.data,
-                });
-            } */
+            }      
             
+            this.setState({books: aux_books, customer: aux_customer});
         } catch (error) {
             console.log(error)
         }
     }
 
+    async handleSave(){
+        this.state['books'] = [this.state['books']]
+        super.handleSave()
+    }
+
     handleForm(){
         return <>
-            <View style={styles.EstiloViewImput} style={{backgroundColor: '#ccc', height: 50, color: 'black', fontSize: 20}}>
+            <View style={styles.EstiloViewImput} style={{height: 50, color: 'black', margin: 20}}>                
                 <RNPickerSelect
                     selectedValue={this.state.customer}
                     onValueChange={(value) => this.setState({customer: value})}
-                    items={this.state.options_cliente}
-                    style={{backgroundColor: '#ccc'}}
-                />
+                    items={this.state.options_cliente}                       
+                >
+                    <Text style={{fontSize: 20, color: 'white', marginBottom: 20}}>Click aqui e selecione o cliente</Text>
+                    <Text style={{fontSize: 20, color: 'white'}}>{this.state.customer}</Text>
+                </RNPickerSelect>    
             </View>
-            <View style={styles.EstiloViewImput} style={{backgroundColor: '#ccc', height: 50, color: 'black', fontSize: 20}}>
+            <View style={styles.EstiloViewImput} style={{height: 50, color: 'black', fontSize: 20, margin: 20}}>                
                 <RNPickerSelect
-                    selectedValue={this.state.book}
-                    onValueChange={(value) => this.setState({book: value})}
-                    items={this.state.options_book}
-                    style={{backgroundColor: '#ccc'}}
-                />
+                    selectedValue={this.state.books}
+                    onValueChange={(value) => this.setState({books: value})}
+                    items={this.state.options_book}                                                      
+                >
+                    <Text style={{fontSize: 20, color: 'white', marginBottom: 20}}>Click aqui e selecione o livro</Text>
+                    <Text style={{fontSize: 20, color: 'white'}}>{this.state.books}</Text>
+                </RNPickerSelect>  
             </View>
         </>
     }

@@ -13,6 +13,10 @@ export default class FormBase extends Component {
         this.title    = null
         this.resourse = null;
 
+        this.state = {
+
+        };
+
         try {
             this.data = props.route.params.data ? props.route.params.data : null;  
         } catch (error) {
@@ -38,7 +42,7 @@ export default class FormBase extends Component {
 
     async handleSave(){
         try {
-            let response = null            
+            let response = null                    
             if (this.state.id)
                 response = await api.put(`${this.resourse}${this.state.id}/`, this.state)
             else
@@ -49,7 +53,7 @@ export default class FormBase extends Component {
                 this.props.navigation.goBack()
             }
 
-        } catch (error) {
+        } catch (error) {            
             alert(error.message)
         }
     }
