@@ -86,20 +86,20 @@ export default class FormBase extends Component {
             <View style={styles.botoes}>
                 <Button 
                     icon="content-save"
-                    onPress={_ => this.handleSave()}                            
+                    onPress={() => this.handleSave()}                            
                 /> 
                                             
             </View>
             <View style={styles.botoes}>
                 <Button 
                     icon="keyboard-backspace"
-                    onPress={_ => this.props.navigation.goBack()}                            
+                    onPress={() => this.props.navigation.goBack()}                            
                 />
             </View>
             {this.state && this.state.id && <View style={styles.botoes}>                         
                 <Button 
                     icon="delete"
-                    onPress={_ => this.handleDelete()}                                           
+                    onPress={() => this.handleDelete()}                                           
                 />   
             </View>}
         </>
