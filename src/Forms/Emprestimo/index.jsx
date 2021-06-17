@@ -87,6 +87,24 @@ export default class EmprestimoForm extends FormBase {
         </>
     }
 
+    getDescCustomer(id){
+        if (id == null) return ;
+        let xId = parseInt(id);
+
+        if (this.state.options_cliente == null || this.state.options_cliente.length <= 0) return ;
+        let obj = this.state.options_cliente.filter( v => v.value == xId)[0]
+        return `${obj.value} - ${obj.label}`;
+    }
+
+    getDescBook(id){
+        if (id == null) return ;
+        let xId = parseInt(id);
+
+        if (this.state.options_book == null || this.state.options_book.length <= 0) return ;
+        let obj = this.state.options_book.filter( v => v.value == xId)[0]
+        return `${obj.value} - ${obj.label}`;
+    }
+
     handleForm(){
         return <>        
             <View style={styles.EstiloViewImput} style={{height: 50, color: 'black', margin: 20}}>                
@@ -96,7 +114,7 @@ export default class EmprestimoForm extends FormBase {
                     items={this.state.options_cliente}                       
                 >
                     <Text style={{fontSize: 20, color: 'white', marginBottom: 20}}>Click aqui e selecione o cliente</Text>
-                    <Text style={{fontSize: 20, color: 'white'}}>{this.state.customer}</Text>
+                    <Text style={{fontSize: 20, color: 'white'}}>{this.getDescCustomer(this.state.customer)}</Text>
                 </RNPickerSelect>    
             </View>
             <View style={styles.EstiloViewImput} style={{height: 50, color: 'black', fontSize: 20, margin: 20}}>                
@@ -106,7 +124,7 @@ export default class EmprestimoForm extends FormBase {
                     items={this.state.options_book}                                                      
                 >
                     <Text style={{fontSize: 20, color: 'white', marginBottom: 20}}>Click aqui e selecione o livro</Text>
-                    <Text style={{fontSize: 20, color: 'white'}}>{this.state.books}</Text>
+                    <Text style={{fontSize: 20, color: 'white'}}>{this.getDescBook(this.state.books)}</Text>
                 </RNPickerSelect>  
             </View>        
         </>
