@@ -68,9 +68,8 @@ export default class EmprestimoForm extends FormBase {
             const dados    = {loan: this.state.id, books: [this.state['books']]}            
             const response = await api.post('/movement/make_return/', dados);
 
-            if (response){
-                alert('Devolução realizada com sucesso');
-                this.handleView();
+            if (response){                
+                this.props.route.params.onGoBack();
                 this.props.navigation.goBack();
             }
 

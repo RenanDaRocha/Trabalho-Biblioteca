@@ -18,8 +18,7 @@ export default class FormBase extends Component {
         };
 
         try {
-            this.data = props.route.params.data ? props.route.params.data : null;  
-            this.handleView = props.route.params.handleView ? props.route.params.handleView : _ => {}
+            this.data = props.route.params.data ? props.route.params.data : null;              
         } catch (error) {
             this.data = null
         }        
@@ -49,10 +48,9 @@ export default class FormBase extends Component {
             else
                 response = await api.post(this.resourse, this.state)                        
 
-            if (response){
-                alert('Dados salvos com sucesso...');                
-                this.handleView();
-                this.props.navigation.goBack()
+            if (response){                                           
+                this.props.route.params.onGoBack();
+                this.props.navigation.goBack();
             }
 
         } catch (error) {            
@@ -70,9 +68,8 @@ export default class FormBase extends Component {
             if (this.state.id)
                 response = await api.delete(`${this.resourse}${this.state.id}/`, this.state)                    
 
-            if (response){
-                alert('Registro removido.');
-                this.handleView();
+            if (response){                
+                this.props.route.params.onGoBack();
                 this.props.navigation.goBack()
             }
 

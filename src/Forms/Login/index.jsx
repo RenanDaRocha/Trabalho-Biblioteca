@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from './style';
-import { View, Text, TextInput, ImageBackground, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, TextInput, ImageBackground, TouchableWithoutFeedback, AsyncStorage  } from 'react-native'
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import api from '../../services/api';
@@ -11,8 +11,7 @@ export default class TelaLogin extends Component {
     constructor(props){
         super(props);
 
-        this.state = {
-            dados: null,
+        this.state = {            
             valueLogin: '',
             valueSenha: '',
             peopleIcon: "people",
@@ -22,18 +21,39 @@ export default class TelaLogin extends Component {
         }
     }
 
-    componentDidMount(){
-        this.buscaDados();
+    async limpaStorage(){
+        await AsyncStorage.setItem('token', '')
     }
 
-    async buscaDados() {
+    componentDidMount(){
+        this.limpaStorage()
+    }    
+
+    async executarLogin() {                 
         try {
-            // Comentado pois ainda não sei a rota
-            //const response = await api.get("");
-            //this.setState({dados: response.data}) 
+            let retorno = false
+            const response = await api.post('/api-token-auth/', {username: this.state.valueLogin, password: this.state.valueSenha});        
+            if (response.status == 200){                                                              
+                await AsyncStorage.setItem('token', response.data.token)
+                retorno = true;
+            }
+            /*for (let i = 0; i < this.state.dados.length; i++) {
+                if ((this.state.valueLogin.toUpperCase() == this.state.dados.login) && 
+                    (this.state.valueSenha.toUpperCase() == this.state.dados.senha))
+                {
+                    retorno = true 
+                }
+            }*/            
+            this.setState({SenhaInvalida: !retorno})
+            if (retorno) {
+                
+                this.props.navigation.navigate("TabNavigator")    
+            }                 
         } catch (error) {
+            this.setState({SenhaInvalida: false})
             console.log(error)
         }
+        
     }
 
     render(){
@@ -41,31 +61,7 @@ export default class TelaLogin extends Component {
         const changePwdType = () => {
             this.setState({eyeIcon: this.state.eyeIcon === "visibility" ? "visibility-off": "visibility"}) 
             this.setState({Esenha: !this.state.Esenha}) 
-        };  
-
-        const ExecutarLogin = () => {
-            // Retirar a linha abaixo depois
-            this.props.navigation.navigate("TabNavigator")
-
-            /*if (this.state.dados) {
-                try {
-                    let retorno = false
-                    for (let i = 0; i < this.state.dados.length; i++) {
-                        if ((this.state.valueLogin.toUpperCase() == this.state.dados.login) && 
-                            (this.state.valueSenha.toUpperCase() == this.state.dados.senha))
-                        {
-                            retorno = true 
-                        }
-                    }
-                    this.setState({SenhaInvalida: !retorno})
-                    if (retorno) {
-                        this.props.navigation.navigate("TabNavigator")    
-                    }                 
-                } catch (error) {
-                    console.log(error)
-                }
-            }   */    
-        }
+        };          
 
         return <>
             <ImageBackground
@@ -125,7 +121,7 @@ export default class TelaLogin extends Component {
                             ) : null}   
                         </View>
                         <View style={{paddingTop: 40}}> 
-                        <TouchableWithoutFeedback onPress={() => ExecutarLogin()}>
+                        <TouchableWithoutFeedback onPress={() => this.executarLogin()}>
                             <Text 
                                 style={{
                                     height: 70,    

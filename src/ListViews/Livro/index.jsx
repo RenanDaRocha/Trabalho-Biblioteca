@@ -13,7 +13,7 @@ export default class Livro extends ListBase {
 
     handleView(data){
         return <>
-            <TouchableOpacity key={data} onPress={e => this.props.navigation.navigate("LivroForm", {data: data, handleView: _ => super.buscaDados()})}>
+            <TouchableOpacity key={data} onPress={e => this.props.navigation.navigate("LivroForm", {data: data, onGoBack: _ => super.buscaDados()})}>
                 <View style={styles.caixa}>
                     <View>
                         <View>
